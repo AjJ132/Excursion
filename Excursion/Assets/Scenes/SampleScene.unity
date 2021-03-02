@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sun: {fileID: 705507993}
   moon: {fileID: 1170278685}
-  daySpeed: 0.000001
+  daySpeed: 0.01
 --- !u!1 &834203776
 GameObject:
   m_ObjectHideFlags: 0
