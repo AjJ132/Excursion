@@ -1,0 +1,42 @@
+﻿
+
+      #undef MICROSPLAT_SAMPLE_TEX2D_LOD
+      #undef MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD
+      #undef MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD
+      #undef MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD
+
+      #define MICROSPLAT_SAMPLE_TEX2D_LOD(tex,coord,lod)                    SAMPLE_TEXTURE2D_LOD(tex, sampler##tex, coord, lod)
+      #define MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(tex,coord,dx,dy)            SAMPLE_TEXTURE2D_GRAD(tex,sampler##tex,coord,dx,dy)
+      #define MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(tex,samp,coord,dx,dy)    SAMPLE_TEXTURE2D_GRAD(tex,sampler##samp,coord,dx,dy)
+      #define MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(tex, samp, coord, lod)    SAMPLE_TEXTURE2D_LOD(tex, sampler##samp, coord, lod)
+      
+
+      Input DescToInput(ShaderData IN)
+      {
+        Input s = (Input)0;
+        s.TBN = IN.TBNMatrix;
+        s.worldNormal = IN.worldSpaceNormal;
+        s.worldPos = IN.worldSpacePosition;
+        s.viewDir = IN.tangentSpaceViewDir;
+        s.uv_Control0 = IN.texcoord0.xy;
+        
+
+        #if _MICROMESH && _MESHUV2
+            s.uv_Diffuse = IN.texcoord1.xy;
+        #endif
+
+        #if _SRPTERRAINBLEND
+            s.color = IN.vertexColor;
+        #endif
+
+        #if _MEGASPLAT
+           UnpackMegaSplat(s, IN);
+        #endif
+   
+        #if _MICROVERTEXMESH || _MICRODIGGERMESH
+            UnpackVertexWorkflow(s, IN);
+        #endif
+        
+        return s;
+     }
+     
