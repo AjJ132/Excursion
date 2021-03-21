@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Fire
   - Terrain
+  - Item
+  - Item1
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Item
   - 
   - 
   - 
